@@ -1,4 +1,4 @@
-let throttle = require('lodash.throttle'); // add method throttle from lodash
+import throttle from 'lodash.throttle'; // add method throttle from lodash
 
 const formEl = document.querySelector('.feedback-form'); // Create variable formEl and give them tag <form>
 
@@ -16,17 +16,9 @@ if (localStorage.getItem('feedback-form-state')) {
 }
 
 function addData(e) {
-  console.log('Це event: ', e);
-  console.log('Це дані форм: ', e.target.value);
-  console.log('Це значення value of email: ', formEl.elements.email.value);
-  console.log('Це властивості form: ', formEl.elements.message.value);
   dataObj.email = formEl.elements.email.value;
   dataObj.message = formEl.elements.message.value;
-  console.log('Це наш пустий обєкт після змін: ', dataObj);
-  console.log(
-    'Це перетворення обєкту в строку для локал Сторедж:',
-    JSON.stringify(dataObj)
-  );
+
   localStorage.setItem('feedback-form-state', JSON.stringify(dataObj));
 }
 
@@ -34,14 +26,16 @@ formEl.addEventListener('input', throttle(addData, 500));
 
 formEl.addEventListener('submit', function (event) {
   event.preventDefault();
-  console.log('submit');
-  console.log('Це event s: ', event);
 
-  console.log('Це який ел виклик: ', event.target.elements.message.value);
-  console.log('Your data to send: ', dataObj);
-  event.target.elements.email.value = '';
-  event.target.elements.message.value = '';
-  localStorage.removeItem('feedback-form-state');
+  if (
+    event.target.elements.email.value != '' ||
+    event.target.elements.message.value != ''
+  ) {
+    event.target.elements.email.value = '';
+    event.target.elements.message.value = '';
+    localStorage.removeItem('feedback-form-state');
+  }
+  console.log('Це поточні значення: ', dataObj);
 });
 
 // Виконуй це завдання у файлах 03-feedback.html і 03-feedback.js. Розбий його на декілька підзавдань:
