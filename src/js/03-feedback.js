@@ -26,16 +26,18 @@ formEl.addEventListener('input', throttle(addData, 500));
 
 formEl.addEventListener('submit', function (event) {
   event.preventDefault();
-
   if (
-    event.target.elements.email.value != '' ||
-    event.target.elements.message.value != ''
+    event.target.elements.email.value == '' &&
+    event.target.elements.message.value == ''
   ) {
+    console.log('Form could not be empty');
+  } else {
+    console.log('It`s current values: ', dataObj);
+    localStorage.removeItem('feedback-form-state');
+
     event.target.elements.email.value = '';
     event.target.elements.message.value = '';
-    localStorage.removeItem('feedback-form-state');
   }
-  console.log('Це поточні значення: ', dataObj);
 });
 
 // Виконуй це завдання у файлах 03-feedback.html і 03-feedback.js. Розбий його на декілька підзавдань:
